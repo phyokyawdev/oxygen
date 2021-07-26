@@ -1,0 +1,33 @@
+{
+  "name": "oxygen",
+  "version": "1.0.0",
+  "description": "web app for oxygen supplier",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phyokyawdev/oxygen.git"
+  },
+  "keywords": [
+    "web",
+    "app",
+    "oxygen",
+    "supplier"
+  ],
+  "author": "Phyo Kyaw",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/phyokyawdev/oxygen/issues"
+  },
+  "homepage": "https://github.com/phyokyawdev/oxygen#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "nodemon": "^2.0.12"
+  }
+}
