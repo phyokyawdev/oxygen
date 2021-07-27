@@ -4,7 +4,7 @@
   "description": "web app for oxygen supplier",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
+    "dev": "DEBUG=server* nodemon -q -r dotenv/config index.js",
     "test": "test"
   },
   "repository": {
@@ -24,7 +24,9 @@
   },
   "homepage": "https://github.com/phyokyawdev/oxygen#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "debug": "^2.6.9",
+    "express": "^4.17.1",
+    "mongoose": "^5.13.3"
   },
   "devDependencies": {
     "dotenv": "^10.0.0",
