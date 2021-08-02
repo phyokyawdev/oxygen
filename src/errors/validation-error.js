@@ -1,10 +1,10 @@
-const ClientError = require("./client-error");
+const BadRequestError = require("./bad-request-error");
 
-class ValidationError extends ClientError {
-  constructor(details = []) {
-    super(400, "Validation Error");
+class ValidationError extends BadRequestError {
+  constructor(err) {
+    super("Validation Error");
     this.name = "ValidationError";
-    this.details = details;
+    this.details = err.details;
   }
 
   serialize() {
