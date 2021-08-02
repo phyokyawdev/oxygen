@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "DEBUG=server* nodemon -q -r dotenv/config index.js",
-    "test": "test"
+    "test": "jest --config ./jest.config.js --watchAll --no-cache --runInBand --detectOpenHandles --silent=false"
   },
   "repository": {
     "type": "git",
@@ -24,13 +24,22 @@
   },
   "homepage": "https://github.com/phyokyawdev/oxygen#readme",
   "dependencies": {
+    "cookie-session": "^1.4.0",
     "debug": "^2.6.9",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
-    "mongoose": "^5.13.3"
+    "joi": "^17.4.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.3",
+    "passport": "^0.4.1",
+    "passport-custom": "^1.1.1",
+    "passport-jwt": "^4.0.0"
   },
   "devDependencies": {
     "dotenv": "^10.0.0",
-    "nodemon": "^2.0.12"
+    "jest": "^27.0.6",
+    "mongodb-memory-server": "^7.3.4",
+    "nodemon": "^2.0.12",
+    "supertest": "^6.1.4"
   }
 }
