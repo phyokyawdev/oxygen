@@ -1,22 +1,40 @@
-const logger = require("../logger")("app");
 const express = require("express");
 require("express-async-errors");
+const passport = require("passport");
+const cookieSession = require("cookie-session");
 
-const ClientError = require("./errors/client-error");
+const NotFoundError = require("./errors/not-found-error");
 const errorHandler = require("./middlewares/error-handler");
+const authRouter = require("./routes/auth");
 
-logger.debug("Preparing app...");
+const cookieKeys = process.env.COOKIE_KEYS.split(",");
 const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(
+  cookieSession({
+    name: "session",
+    keys: cookieKeys,
+  })
+);
+
+// configure passport
+passport.initialize();
+require("./config/passport");
 
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.use("*", async (req, res) => {
-  throw new ClientError(404, "Not found");
+// routers
+app.use(authRouter);
+
+// handler for unknown routes
+app.all("*", async (req, res) => {
+  throw new NotFoundError();
 });
 
 app.use(errorHandler);
 
-logger.debug("Preparing completed");
 module.exports = app;

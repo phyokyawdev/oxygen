@@ -15,7 +15,13 @@ process.on("unhandledRejection", (err) => {
   process.exit(1);
 });
 
-const env_variables = ["PORT", "MONGO_URI"];
+const env_variables = [
+  "PORT",
+  "MONGO_URI",
+  "JWT_PRIVATE_KEY",
+  "JWT_PUBLIC_KEY",
+  "COOKIE_KEYS",
+];
 
 const start = async () => {
   logger.info("Starting server...");
@@ -23,16 +29,19 @@ const start = async () => {
   // check env variables
   env.check(env_variables);
 
+  const mongoUri = process.env.MONGO_URI;
+  const port = process.env.PORT;
+
   // connect to db
   try {
-    await db.connect(process.env.MONGO_URI);
+    await db.connect(mongoUri);
   } catch (err) {
     throw err;
   }
 
   // serve app
-  app.listen(process.env.PORT, () => {
-    logger.info(`Listening on port ${process.env.PORT}`);
+  app.listen(port, () => {
+    logger.info(`Listening on port ${port}`);
   });
 };
 
