@@ -1,4 +1,4 @@
-const ValidationError = require("../errors/validation-error");
+const { ValidationError } = require("../errors");
 
 const generateValidator = (name) => (validate) => async (req, res, next) => {
   try {

@@ -3,8 +3,8 @@ require("express-async-errors");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
 
-const NotFoundError = require("./errors/not-found-error");
-const errorHandler = require("./middlewares/error-handler");
+const { NotFoundError } = require("./errors");
+const { errorHandler } = require("./middlewares");
 const authRouter = require("./routes/auth");
 
 const cookieKeys = process.env.COOKIE_KEYS.split(",");

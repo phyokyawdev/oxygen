@@ -1,5 +1,5 @@
 const logger = require("../../logger")("error-handler");
-const ClientError = require("../errors/client-error");
+const { ClientError } = require("../errors");
 
 function errorHandler(err, req, res, next) {
   if (res.headersSent) {

@@ -2,8 +2,8 @@ const express = require("express");
 const passport = require("passport");
 const router = express.Router();
 
-const BadRequestError = require("../../errors/bad-request-error");
-const validateRequest = require("../../middlewares/validate-request");
+const { BadRequestError } = require("../../errors");
+const { validateRequest } = require("../../middlewares");
 const { validateUser } = require("../../models/user");
 
 router.post("/signup", validateRequest.body(validateUser), (req, res, next) => {

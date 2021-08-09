@@ -1,5 +1,5 @@
 const passport = require("passport");
-const NotAuthorizedError = require("../errors/not-authorized-error");
+const { NotAuthorizedError } = require("../errors");
 
 /**
  * Attach user: { id: string, isAdmin?: boolean} to req if auth token is valid
