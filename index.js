@@ -23,21 +23,17 @@ const env_variables = [
   "COOKIE_KEYS",
 ];
 
+// check env variables
+env.check(env_variables);
+
 const start = async () => {
   logger.info("Starting server...");
-
-  // check env variables
-  env.check(env_variables);
-
-  const mongoUri = process.env.MONGO_URI;
   const port = process.env.PORT;
+  const mongoUri = process.env.MONGO_URI;
 
-  // connect to db
-  try {
-    await db.connect(mongoUri);
-  } catch (err) {
-    throw err;
-  }
+  // setup db
+  await db.connect(mongoUri);
+  await db.populate();
 
   // serve app
   app.listen(port, () => {

@@ -1,6 +1,8 @@
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const mongoose = require("mongoose");
 const request = require("supertest");
+
+const db = require("../../setup/db");
 const app = require("../app");
 
 let mongo;
@@ -11,11 +13,8 @@ beforeAll(async () => {
   mongo = await MongoMemoryServer.create();
   const mongoUri = mongo.getUri();
 
-  await mongoose.connect(mongoUri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  });
+  await db.connect(mongoUri);
+  await db.populate();
 });
 
 beforeEach(async () => {
@@ -23,7 +22,11 @@ beforeEach(async () => {
   const collections = await mongoose.connection.db.collections();
 
   for (let collection of collections) {
-    await collection.deleteMany({});
+    if (
+      collection.collectionName !== "regions" &&
+      collection.collectionName !== "townships"
+    )
+      await collection.deleteMany({});
   }
 });
 
