@@ -2,9 +2,9 @@ const express = require("express");
 const passport = require("passport");
 const router = express.Router();
 
-const { BadRequestError } = require("../../errors");
-const { validateRequest } = require("../../middlewares");
-const { validateUser } = require("../../models/user");
+const { BadRequestError } = require("@shared/errors");
+const { validateRequest } = require("@shared/middlewares");
+const { validateUser } = require("@models/user");
 
 router.post("/signup", validateRequest.body(validateUser), (req, res, next) => {
   passport.authenticate("signup", async (err, user, info) => {

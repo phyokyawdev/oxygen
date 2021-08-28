@@ -3,8 +3,8 @@ require("express-async-errors");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
 
-const { NotFoundError } = require("./errors");
-const { errorHandler } = require("./middlewares");
+const { NotFoundError } = require("@shared/errors");
+const { errorHandler } = require("@shared/middlewares");
 const authRouter = require("./routes/auth");
 const regionRouter = require("./routes/regions");
 
@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
 });
 
 // routers
-app.use(authRouter);
+app.use("/auth", authRouter);
 app.use(regionRouter);
 
 // handler for unknown routes

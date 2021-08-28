@@ -18,7 +18,10 @@ const locationMongooseSchema = new mongoose.Schema(
 
 const locationJoiSchema = Joi.object({
   type: Joi.string().valid("Point").required(),
-  coordinates: Joi.array().length(2).items(Joi.number().required()).required(),
+  coordinates: Joi.array()
+    .length(2)
+    .items(Joi.number().required(), Joi.number().required())
+    .required(),
 });
 
 module.exports = { locationMongooseSchema, locationJoiSchema };

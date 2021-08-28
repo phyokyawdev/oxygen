@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("../../../app");
+const app = require("@app");
 
 describe("GET /regions", () => {
   let region;
@@ -18,9 +18,9 @@ describe("GET /regions", () => {
     expect(res.body).toMatchObject(region);
   });
 
-  it("should return 400 if invalid id is provided", async () => {
+  it("should return 404 if invalid id is provided", async () => {
     const res = await request(app).get("/regions/1").send();
 
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(404);
   });
 });

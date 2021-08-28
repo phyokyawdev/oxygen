@@ -1,20 +1,16 @@
 const express = require("express");
-const { NotFoundError } = require("../../errors");
-const { validateRequest } = require("../../middlewares");
-const { Township } = require("../../models/township");
-const validateObjectIds = require("../../services/validateObjectIds");
+const { NotFoundError } = require("@shared/errors");
+const { validateRequest } = require("@shared/middlewares");
+const { validateObjectIds } = require("@shared/services");
+const { Township } = require("@models/township");
 
 const router = express.Router({ mergeParams: true });
 
-router.get(
-  "/",
-  validateRequest.params(validateObjectIds("regionId")),
-  async (req, res) => {
-    const townships = await Township.find({ region: req.params.regionId });
+router.get("/", async (req, res) => {
+  const townships = await Township.find({ region: req.params.regionId });
 
-    res.send(townships);
-  }
-);
+  res.send(townships);
+});
 
 router.get(
   "/:id",

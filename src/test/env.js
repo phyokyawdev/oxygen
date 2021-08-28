@@ -3,3 +3,6 @@ process.env.JWT_PRIVATE_KEY =
 process.env.JWT_PUBLIC_KEY =
   "-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCLE83t3FTljsH65vVM4dbnD5uQ\n/aEljTf395gYJv/HGNGgx7ZUS+7Bx07F9qVXBXLemBTq7yhTgWkrm4Uxi21jvVAl\n2hyajc83KFfjKkmqB4lOzVXK4d8KWehtzuHP5EU6ttypLmQgopjYT4XwMriQKF2F\nyyraEV2m0q9su+ST8wIDAQAB\n-----END PUBLIC KEY-----";
 process.env.COOKIE_KEYS = "key1,key2";
+process.env.MONGOMS_DOWNLOAD_URL =
+  "https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1804-4.2.8.tgz";
+process.env.MONGOMS_VERSION = "4.2.8";

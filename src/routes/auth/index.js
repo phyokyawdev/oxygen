@@ -6,6 +6,9 @@ const logoutRouter = require("./logout");
 const signupRouter = require("./signup");
 const meRouter = require("./me");
 
-router.use("/auth", [loginRouter, logoutRouter, signupRouter, meRouter]);
+router.use(loginRouter);
+router.use(logoutRouter);
+router.use(signupRouter);
+router.use(meRouter);
 
 module.exports = router;

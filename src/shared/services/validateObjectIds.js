@@ -1,5 +1,5 @@
 const Joi = require("joi");
-const { objectIdJoiSchema } = require("../models/schemas/objectId");
+const { objectIdJoiSchema } = require("@models/schemas/objectId");
 
 /**
  * returns validation function which can check if values of provided keys are objectId

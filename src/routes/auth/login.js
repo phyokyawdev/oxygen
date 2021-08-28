@@ -2,7 +2,7 @@ const express = require("express");
 const passport = require("passport");
 const router = express.Router();
 
-const { BadRequestError } = require("../../errors");
+const { BadRequestError } = require("@shared/errors");
 
 router.post("/login", (req, res, next) => {
   passport.authenticate("login", async (err, user, info) => {

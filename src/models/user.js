@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const Joi = require("joi");
-const passwordService = require("../services/password");
+const { passwordService } = require("@shared/services");
 
 const jwtPrivateKey = process.env.JWT_PRIVATE_KEY.replace(/\\n/gm, "\n");
 
@@ -26,9 +26,10 @@ const userSchema = new mongoose.Schema(
       minlength: 8,
       maxlength: 1024,
     },
-    isAdmin: {
-      type: Boolean,
-      default: false,
+    role: {
+      type: String,
+      enum: ["basic", "moderator", "admin"],
+      default: "basic",
     },
   },
   {
@@ -37,7 +38,6 @@ const userSchema = new mongoose.Schema(
         ret.id = ret._id;
         delete ret._id;
         delete ret.password;
-        delete ret.isAdmin;
         delete ret.__v;
       },
     },
@@ -62,8 +62,7 @@ userSchema.methods.checkPassword = async function (suppliedPassword) {
 
 userSchema.methods.generateAuthToken = async function () {
   return new Promise((resolve, reject) => {
-    const payload = { id: this._id };
-    if (this.isAdmin) payload.isAdmin = this.isAdmin;
+    const payload = { id: this._id, role: this.role };
 
     jwt.sign(
       payload,
@@ -80,16 +79,39 @@ userSchema.methods.generateAuthToken = async function () {
   });
 };
 
+userSchema.statics.isExistingUser = async function (id) {
+  const user = await this.findById(id);
+  if (!user) return false;
+  return true;
+};
+
 const User = mongoose.model("User", userSchema);
 
+// request validation schemas
 function validateUser(user) {
   const schema = Joi.object({
     userName: Joi.string().alphanum().min(3).max(30).required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(8).max(1028).required(),
   });
-
   return schema.validateAsync(user);
 }
 
-module.exports = { User, validateUser };
+function vlaidateLogin(body) {
+  const schema = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().min(8).max(1028).required(),
+  });
+  return schema.validateAsync(body);
+}
+
+function validateSignup(body) {
+  const schema = Joi.object({
+    userName: Joi.string().alphanum().min(3).max(30).required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().min(8).max(1028).required(),
+  });
+  return schema.validateAsync(body);
+}
+
+module.exports = { User, validateUser, vlaidateLogin, validateSignup };

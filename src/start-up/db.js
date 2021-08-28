@@ -1,9 +1,9 @@
-const logger = require("../logger")("db");
+const logger = require("@shared/logger")("db");
 const mongoose = require("mongoose");
 
-const { Region } = require("../src/models/region");
-const { Township } = require("../src/models/township");
-const regions_townships = require("../regions_townships.json");
+const { Region } = require("../models/region");
+const { Township } = require("../models/township");
+const regions_townships = require("./regions_townships.json");
 
 async function connect(uri) {
   await mongoose.connect(uri, {

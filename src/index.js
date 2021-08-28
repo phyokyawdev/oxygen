@@ -1,8 +1,10 @@
-const logger = require("./logger")("index");
+const moduleAlias = require("module-alias");
+moduleAlias.addAliases(require("./start-up/getAliases")());
 
-const app = require("./src/app");
-const db = require("./setup/db");
-const env = require("./setup/env");
+const db = require("./start-up/db");
+const env = require("./start-up/env");
+const app = require("@app");
+const logger = require("@shared/logger")("index");
 
 process.on("uncaughtExceptionMonitor", (err) => {
   logger.error("Uncaught Exception");

@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("../../../app");
+const app = require("@app");
 
 describe("/auth/me", () => {
   it("should respond with detail about the current user", async () => {

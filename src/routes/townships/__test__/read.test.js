@@ -1,6 +1,6 @@
 const request = require("supertest");
 const mongoose = require("mongoose");
-const app = require("../../../app");
+const app = require("@app");
 const { Region } = require("../../../models/region");
 const { Township } = require("../../../models/township");
 
@@ -20,11 +20,11 @@ describe("GET /townships", () => {
     return request(app).get(`/regions/${region_id}/townships/${township_id}`);
   };
 
-  it("should return 400 if invalid region_id and township_id is provided", async () => {
+  it("should return 404 if invalid region_id and township_id is provided", async () => {
     region_id = 1;
     township_id = 1;
     const res = await exec();
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(404);
   });
 
   it("should return 404 if provided ids are not exist", async () => {

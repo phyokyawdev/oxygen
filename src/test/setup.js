@@ -2,8 +2,11 @@ const { MongoMemoryServer } = require("mongodb-memory-server");
 const mongoose = require("mongoose");
 const request = require("supertest");
 
-const db = require("../../setup/db");
+const db = require("../start-up/db");
 const app = require("../app");
+const { Region } = require("../models/region");
+const { Township } = require("../models/township");
+const { User } = require("../models/user");
 
 let mongo;
 
@@ -47,4 +50,43 @@ global.login = async () => {
 
   const cookie = res.get("Set-Cookie");
   return cookie;
+};
+
+global.getFakeCookie = async () => {
+  let counter = 1;
+  const userName = `test${counter}`;
+  const email = `test${counter}@test.com`;
+  const password = "12345678";
+
+  const res = await request(app)
+    .post("/auth/signup")
+    .send({ userName, email, password })
+    .expect(201);
+
+  const cookie = res.get("Set-Cookie");
+  counter++;
+  return cookie;
+};
+
+global.getPlant = async (cookie, counter) => {
+  const region = await Region.findOne();
+  const township = await Township.findOne({ region: region._id });
+  const user = await User.findOne();
+
+  const name = counter ? "oxygen" + counter : "oxygen";
+  const address = {
+    township: township._id,
+    additionalInfo: "23rd street, Hlaing",
+  };
+  const phones = ["+959969006061", "09401581952"];
+  const location = { type: "Point", coordinates: [95.1591741, 22.1298127] };
+  const managers = [user._id];
+
+  const res = await request(app)
+    .post("/plants")
+    .set("Cookie", cookie)
+    .send({ name, address, phones, location, managers })
+    .expect(201);
+
+  return res.body;
 };

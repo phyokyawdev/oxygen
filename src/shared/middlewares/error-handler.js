@@ -1,5 +1,5 @@
-const logger = require("../../logger")("error-handler");
-const { ClientError } = require("../errors");
+const logger = require("@shared/logger")("error-handler");
+const { ClientError } = require("@shared/errors");
 
 function errorHandler(err, req, res, next) {
   if (res.headersSent) {

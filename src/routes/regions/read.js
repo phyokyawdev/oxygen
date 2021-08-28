@@ -1,8 +1,8 @@
 const express = require("express");
-const { NotFoundError } = require("../../errors");
-const { validateRequest } = require("../../middlewares");
+const { NotFoundError } = require("@shared/errors");
+const { validateRequest } = require("@shared/middlewares");
+const { validateObjectIds } = require("@shared/services");
 const { Region } = require("../../models/region");
-const validateObjectIds = require("../../services/validateObjectIds");
 
 const router = express.Router();
 

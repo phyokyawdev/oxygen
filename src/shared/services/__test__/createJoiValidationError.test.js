@@ -1,9 +1,8 @@
 const createJoiValidationError = require("../createJoiValidationError");
-const createTestJoiValidationError = createJoiValidationError("test");
 
 describe("createJoiValidationError function", () => {
   it("should return new valid instance of Joi.ValidationError for objects", () => {
-    const err = createTestJoiValidationError("example error", {
+    const err = createJoiValidationError("example error", ["test"], {
       example: "example",
     });
 
@@ -26,7 +25,7 @@ describe("createJoiValidationError function", () => {
   it("should return new valid instance of Joi.ValidationError for arrays", () => {
     const arr = [];
     arr[1] = "example";
-    const err = createTestJoiValidationError("example error", arr);
+    const err = createJoiValidationError("example error", ["test"], arr);
 
     const customDetails = [
       {

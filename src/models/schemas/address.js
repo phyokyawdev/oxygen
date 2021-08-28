@@ -1,21 +1,19 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
-const { objectIdJoiSchema } = require("./objectId");
-const { Township } = require("../township");
-const { Region } = require("../region");
-const createJoiValidationError =
-  require("../../services/createJoiValidationError")("address");
+const { Township } = require("@models/township");
+const { objectIdJoiSchema } = require("@models/schemas/objectId");
+const { createJoiValidationError } = require("@shared/services");
 
 const addressMongooseSchema = new mongoose.Schema(
   {
     region: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: Region,
+      ref: "Region",
       required: true,
     },
     township: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: Township,
+      ref: "Township",
       required: true,
     },
     additionalInfo: {
@@ -26,42 +24,26 @@ const addressMongooseSchema = new mongoose.Schema(
   { _id: false }
 );
 
-// validate region and township
-const regionJoiSchema = objectIdJoiSchema.external(async (region) => {
-  const db_region = await Region.findById(region);
-  if (!db_region)
-    throw createJoiValidationError("region is invalid", { region });
-
-  return region;
-});
-
-const townshipJoiSchema = objectIdJoiSchema.external(async (township) => {
-  const db_township = await Township.findById(township);
-  if (!db_township)
-    throw createJoiValidationError("township is invalid", { township });
-
-  return township;
-});
-
+// validate request schemas
 const addressJoiSchema = Joi.object()
   .keys({
-    region: regionJoiSchema.required(),
-    township: townshipJoiSchema.required(),
+    township: objectIdJoiSchema.required(),
     additionalInfo: Joi.string().required(),
   })
-  .external(async (obj) => {
-    // check consistency of region and township
-    const { region, township } = obj;
-    const db_township = await Township.findById(township);
-
-    if (db_township?.region.toString() !== region) {
-      throw createJoiValidationError("region and township mismatch", {
-        region,
+  .external(async (address) => {
+    const township = await Township.findById(address.township);
+    if (!township)
+      throw createJoiValidationError("township not exist", ["address"], {
         township,
       });
-    }
 
-    return obj;
+    const new_address = {
+      region: township.region,
+      township: township._id,
+      additionalInfo: address.additionalInfo,
+    };
+
+    return new_address;
   });
 
 module.exports = { addressMongooseSchema, addressJoiSchema };
