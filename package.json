@@ -4,8 +4,26 @@
   "description": "web app for oxygen supplier",
   "main": "src/index.js",
   "scripts": {
+    "start": "node src/index.js",
     "dev": "DEBUG=server* nodemon -q -r dotenv/config src/index.js",
-    "test": "jest --config ./jest.config.js --watchAll --no-cache --runInBand --detectOpenHandles --silent=false"
+    "test": "jest --setupFiles dotenv/config --watchAll --no-cache",
+    "test:ci": "jest"
+  },
+  "_moduleAliases": {
+    "@app": "src/app.js",
+    "@models": "src/models",
+    "@shared": "src/shared"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "./src/test/setup.js"
+    ],
+    "moduleNameMapper": {
+      "@app": "<rootDir>/src/app.js",
+      "@models/(.*)": "<rootDir>/src/models/$1",
+      "@shared/(.*)": "<rootDir>/src/shared/$1"
+    }
   },
   "repository": {
     "type": "git",

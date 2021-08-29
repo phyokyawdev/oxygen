@@ -1,11 +1,11 @@
-const moduleAlias = require("module-alias");
-moduleAlias.addAliases(require("./start-up/getAliases")());
+require("module-alias/register");
 
-const db = require("./start-up/db");
-const env = require("./start-up/env");
-const app = require("@app");
+const environment = require("./startup/environment");
+const database = require("./startup/database");
 const logger = require("@shared/logger")("index");
+const app = require("@app");
 
+// listen and log unexpected errors
 process.on("uncaughtExceptionMonitor", (err) => {
   logger.error("Uncaught Exception");
   logger.error(err);
@@ -17,29 +17,22 @@ process.on("unhandledRejection", (err) => {
   process.exit(1);
 });
 
-const env_variables = [
+environment.check(
   "PORT",
   "MONGO_URI",
   "JWT_PRIVATE_KEY",
   "JWT_PUBLIC_KEY",
-  "COOKIE_KEYS",
-];
-
-// check env variables
-env.check(env_variables);
+  "COOKIE_KEYS"
+);
 
 const start = async () => {
-  logger.info("Starting server...");
-  const port = process.env.PORT;
-  const mongoUri = process.env.MONGO_URI;
+  logger.info("Starting server");
 
-  // setup db
-  await db.connect(mongoUri);
-  await db.populate();
+  await database.connect(process.env.MONGO_URI);
+  await database.populate();
 
-  // serve app
-  app.listen(port, () => {
-    logger.info(`Listening on port ${port}`);
+  app.listen(process.env.PORT, () => {
+    logger.info(`Listening on port ${process.env.PORT}`);
   });
 };
 

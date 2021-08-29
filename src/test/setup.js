@@ -2,8 +2,8 @@ const { MongoMemoryServer } = require("mongodb-memory-server");
 const mongoose = require("mongoose");
 const request = require("supertest");
 
-const db = require("../start-up/db");
-const app = require("../app");
+const app = require("@app");
+const database = require("../startup/database");
 const { Region } = require("../models/region");
 const { Township } = require("../models/township");
 const { User } = require("../models/user");
@@ -16,8 +16,8 @@ beforeAll(async () => {
   mongo = await MongoMemoryServer.create();
   const mongoUri = mongo.getUri();
 
-  await db.connect(mongoUri);
-  await db.populate();
+  await database.connect(mongoUri);
+  await database.populate();
 });
 
 beforeEach(async () => {
