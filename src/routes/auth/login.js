@@ -2,13 +2,13 @@ const express = require("express");
 const passport = require("passport");
 const router = express.Router();
 
-const { BadRequestError } = require("@shared/errors");
+const { NotAuthorizedError } = require("@shared/errors");
 
 router.post("/login", (req, res, next) => {
   passport.authenticate("login", async (err, user, info) => {
     if (err) return next(err);
 
-    if (!user) return next(new BadRequestError(info.message));
+    if (!user) return next(new NotAuthorizedError(info.message));
 
     let token;
     try {

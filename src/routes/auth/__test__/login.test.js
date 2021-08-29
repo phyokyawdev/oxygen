@@ -16,23 +16,23 @@ describe("/auth/login", () => {
     return request(app).post("/auth/login").send({ email, password });
   };
 
-  it("should returns 400 if invalid input is provided", async () => {
+  it("should returns 401 if invalid input is provided", async () => {
     email = "test";
     password = "12345";
     const res = await exec();
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(401);
   });
 
-  it("should returns 400 if wrong email is provided", async () => {
+  it("should returns 401 if wrong email is provided", async () => {
     email = "test1@test.com";
     const res = await exec();
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(401);
   });
 
-  it("should returns 400 if wrong password is provided", async () => {
+  it("should returns 401 if wrong password is provided", async () => {
     password = "thisis";
     const res = await exec();
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(401);
   });
 
   it("should returns 200 and a cookie on correct input", async () => {

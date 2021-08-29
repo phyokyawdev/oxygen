@@ -30,17 +30,17 @@ describe("auth/singup", () => {
     expect(res.status).toBe(400);
   });
 
-  it("should returns 400 if email is duplicated", async () => {
+  it("should returns 409 if email is duplicated", async () => {
     const res = await exec();
     const res1 = await exec();
-    expect(res1.status).toBe(400);
+    expect(res1.status).toBe(409);
   });
 
-  it("should returns 400 if userName is duplicated", async () => {
+  it("should returns 409 if userName is duplicated", async () => {
     const res = await exec();
     email = "test2@test.com";
     const res1 = await exec();
-    expect(res1.status).toBe(400);
+    expect(res1.status).toBe(409);
   });
 
   it("should returns 201 if valid input is provided", async () => {
