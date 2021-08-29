@@ -3,6 +3,6 @@ const router = express.Router({ mergeParams: true });
 
 const readRouter = require("./read");
 
-router.use("/townships", [readRouter]);
+router.use(readRouter);
 
 module.exports = router;
