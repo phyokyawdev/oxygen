@@ -2,9 +2,6 @@ const request = require("supertest");
 const mongoose = require("mongoose");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 
-const database = require("./src/startup/database");
-const environment = require("./src/startup/environment");
-
 const app = require("@app");
 const { Region } = require("@models/region");
 const { Township } = require("@models/township");
@@ -13,20 +10,18 @@ const { User } = require("@models/user");
 let mongo;
 jest.setTimeout(100000);
 
-environment.check(
-  "JWT_PRIVATE_KEY",
-  "JWT_PUBLIC_KEY",
-  "COOKIE_KEYS",
-  "MONGOMS_DOWNLOAD_URL",
-  "MONGOMS_VERSION"
-);
-
 beforeAll(async () => {
   mongo = await MongoMemoryServer.create();
   const mongoUri = mongo.getUri();
 
-  // connect to db and seed
-  await database.connect(mongoUri);
+  // connect to db
+  await mongoose.connect(mongoUri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  });
+
+  // seed
   await Promise.all([
     require("./seed/seedRegions"),
     require("./seed/seedTownships"),
