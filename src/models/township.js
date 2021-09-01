@@ -9,6 +9,7 @@ const schema = new mongoose.Schema(
     region: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Region",
+      index: true,
       required: true,
     },
   },

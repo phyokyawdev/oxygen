@@ -1,9 +1,5 @@
 const mongoose = require("mongoose");
-
 const logger = require("@shared/logger")("db");
-const { Region } = require("@models/region");
-const { Township } = require("@models/township");
-const regions_townships = require("./regions_townships.json");
 
 async function connect(uri) {
   await mongoose.connect(uri, {
@@ -14,23 +10,6 @@ async function connect(uri) {
   logger.info("Connected to Database");
 }
 
-async function populate() {
-  for (const name in regions_townships) {
-    const region = new Region({ name });
-    await region.save();
-
-    regions_townships[name].forEach(async (township_name) => {
-      const township = new Township({
-        name: township_name,
-        region: region._id,
-      });
-      await township.save();
-    });
-  }
-  logger.info("Populated the Database");
-}
-
 module.exports = {
   connect,
-  populate,
 };

@@ -29,7 +29,6 @@ const start = async () => {
   logger.info("Starting server");
 
   await database.connect(process.env.MONGO_URI);
-  await database.populate();
 
   app.listen(process.env.PORT, () => {
     logger.info(`Listening on port ${process.env.PORT}`);

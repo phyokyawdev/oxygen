@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "DEBUG=server* nodemon -q -r dotenv/config src/index.js",
+    "dev": "nodemon -q -r dotenv/config src/index.js",
+    "seed": "node -r dotenv/config seed/index.js",
     "test": "jest --setupFiles dotenv/config --watchAll --no-cache",
     "test:ci": "jest"
   },
@@ -17,7 +18,7 @@
   "jest": {
     "testEnvironment": "node",
     "setupFilesAfterEnv": [
-      "./src/test/setup.js"
+      "./jest.setup.js"
     ],
     "moduleNameMapper": {
       "@app": "<rootDir>/src/app.js",
@@ -43,6 +44,7 @@
   "homepage": "https://github.com/phyokyawdev/oxygen#readme",
   "dependencies": {
     "cookie-session": "^1.4.0",
+    "csv-parser": "^3.0.0",
     "debug": "^2.6.9",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
