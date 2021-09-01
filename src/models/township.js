@@ -20,6 +20,7 @@ const schema = new mongoose.Schema(
         delete ret._id;
         delete ret.region;
         delete ret.__v;
+        return ret;
       },
     },
   }
