@@ -2,11 +2,11 @@ const request = require("supertest");
 const mongoose = require("mongoose");
 
 const app = require("@app");
-const { Region } = require("../../../models/region");
-const { Township } = require("../../../models/township");
-const { User } = require("../../../models/user");
+const { Region } = require("@models/region");
+const { Township } = require("@models/township");
+const { User } = require("@models/user");
 
-describe("POST /plants", () => {
+describe("POST /v1/plants", () => {
   let cookie, name, phones, address, location, managers;
 
   beforeEach(async () => {
@@ -26,7 +26,7 @@ describe("POST /plants", () => {
   });
 
   const exec = () => {
-    return request(app).post("/plants").set("Cookie", cookie).send({
+    return request(app).post("/v1/plants").set("Cookie", cookie).send({
       name,
       address,
       phones,
@@ -79,7 +79,7 @@ describe("POST /plants", () => {
 
   it("return 201 if optional location is not provided", async () => {
     const res = await request(app)
-      .post("/plants")
+      .post("/v1/plants")
       .set("Cookie", cookie)
       .send({ name, address, phones, managers });
 

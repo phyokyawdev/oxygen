@@ -1,7 +1,7 @@
 const request = require("supertest");
 const app = require("@app");
 
-describe("GET /plants", () => {
+describe("GET /v1/plants", () => {
   let region, township, near, isOpen, offset, limit;
 
   beforeEach(async () => {
@@ -20,7 +20,7 @@ describe("GET /plants", () => {
 
   const execRegion = () => {
     return request(app)
-      .get("/plants")
+      .get("/v1/plants")
       .query({
         region,
         isOpen,
@@ -32,7 +32,7 @@ describe("GET /plants", () => {
 
   const execTownship = () => {
     return request(app)
-      .get("/plants")
+      .get("/v1/plants")
       .query({
         township,
         isOpen,
@@ -44,7 +44,7 @@ describe("GET /plants", () => {
 
   const execNear = () => {
     return request(app)
-      .get("/plants")
+      .get("/v1/plants")
       .query({
         near,
         isOpen,
@@ -74,7 +74,7 @@ describe("GET /plants", () => {
 
   it("return 400 if both region, township and near are provided", async () => {
     const res = await request(app)
-      .get("/plants")
+      .get("/v1/plants")
       .query({
         region,
         township,

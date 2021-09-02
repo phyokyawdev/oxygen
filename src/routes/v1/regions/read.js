@@ -2,7 +2,7 @@ const express = require("express");
 const { NotFoundError } = require("@shared/errors");
 const { validateRequest } = require("@shared/middlewares");
 const { validateObjectIds } = require("@shared/services");
-const { Region } = require("../../models/region");
+const { Region } = require("@models/region");
 
 const router = express.Router();
 

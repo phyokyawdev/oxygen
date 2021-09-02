@@ -5,11 +5,7 @@ const cookieSession = require("cookie-session");
 
 const { NotFoundError } = require("@shared/errors");
 const { errorHandler } = require("@shared/middlewares");
-
-const authRouter = require("./routes/auth");
-const regionRouter = require("./routes/regions");
-const townshipRouter = require("./routes/townships");
-const plantRouter = require("./routes/plants");
+const v1Router = require("./routes/v1");
 
 const cookieKeys = process.env.COOKIE_KEYS.split(",");
 const app = express();
@@ -32,10 +28,7 @@ app.get("/", (req, res) => {
 });
 
 // routers
-app.use("/auth", authRouter);
-app.use("/regions", regionRouter);
-app.use("/regions/:regionId/townships", townshipRouter);
-app.use("/plants", plantRouter);
+app.use("/v1", v1Router);
 
 // handler for unknown routes
 app.all("*", async (req, res) => {

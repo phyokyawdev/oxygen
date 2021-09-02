@@ -52,7 +52,7 @@ global.login = async () => {
   const password = "12345678";
 
   const res = await request(app)
-    .post("/auth/signup")
+    .post("/v1/auth/signup")
     .send({ userName, email, password })
     .expect(201);
 
@@ -67,7 +67,7 @@ global.getFakeCookie = async () => {
   const password = "12345678";
 
   const res = await request(app)
-    .post("/auth/signup")
+    .post("/v1/auth/signup")
     .send({ userName, email, password })
     .expect(201);
 
@@ -91,7 +91,7 @@ global.getPlant = async (cookie, counter) => {
   const managers = [user._id];
 
   const res = await request(app)
-    .post("/plants")
+    .post("/v1/plants")
     .set("Cookie", cookie)
     .send({ name, address, phones, location, managers })
     .expect(201);

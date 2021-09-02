@@ -1,7 +1,7 @@
 const request = require("supertest");
 const app = require("@app");
 
-describe("/auth/login", () => {
+describe("/v1/auth/login", () => {
   let email;
   let password;
 
@@ -13,7 +13,7 @@ describe("/auth/login", () => {
   });
 
   const exec = () => {
-    return request(app).post("/auth/login").send({ email, password });
+    return request(app).post("/v1/auth/login").send({ email, password });
   };
 
   it("should returns 401 if invalid input is provided", async () => {

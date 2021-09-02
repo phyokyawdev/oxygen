@@ -1,10 +1,10 @@
 const request = require("supertest");
 const mongoose = require("mongoose");
 const app = require("@app");
-const { Region } = require("../../../models/region");
-const { Township } = require("../../../models/township");
+const { Region } = require("@models/region");
+const { Township } = require("@models/township");
 
-describe("GET /townships", () => {
+describe("GET v1 /townships", () => {
   let region_id;
   let township_id;
 
@@ -17,7 +17,9 @@ describe("GET /townships", () => {
   });
 
   const exec = () => {
-    return request(app).get(`/regions/${region_id}/townships/${township_id}`);
+    return request(app).get(
+      `/v1/regions/${region_id}/townships/${township_id}`
+    );
   };
 
   it("should return 404 if invalid region_id and township_id is provided", async () => {

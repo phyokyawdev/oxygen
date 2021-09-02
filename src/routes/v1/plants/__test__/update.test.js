@@ -2,7 +2,7 @@ const request = require("supertest");
 const mongoose = require("mongoose");
 const app = require("@app");
 
-describe("UPDATE /plants/:id", () => {
+describe("UPDATE /v1/plants/:id", () => {
   let cookie, id, name, address, phones, location, managers, isOpen;
 
   beforeEach(async () => {
@@ -17,10 +17,10 @@ describe("UPDATE /plants/:id", () => {
   });
 
   // PUT
-  describe("PUT /plants/:id", () => {
+  describe("PUT /v1/plants/:id", () => {
     const exec = () => {
       return request(app)
-        .put(`/plants/${id}`)
+        .put(`/v1/plants/${id}`)
         .set("Cookie", cookie)
         .send({ name, address, phones, location, managers });
     };
@@ -46,17 +46,17 @@ describe("UPDATE /plants/:id", () => {
   });
 
   // PATCH
-  describe("PATCH /plants/:id", () => {
+  describe("PATCH /v1/plants/:id", () => {
     const exec = () => {
       return request(app)
-        .patch(`/plants/${id}`)
+        .patch(`/v1/plants/${id}`)
         .set("Cookie", cookie)
         .send({ isOpen });
     };
 
     it("return 400 if isOpen field is not provided", async () => {
       const res = await request(app)
-        .put(`/plants/${id}`)
+        .put(`/v1/plants/${id}`)
         .set("Cookie", cookie)
         .send();
       expect(res.status).toBe(400);

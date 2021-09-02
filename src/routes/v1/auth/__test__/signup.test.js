@@ -1,7 +1,7 @@
 const request = require("supertest");
 const app = require("@app");
 
-describe("auth/singup", () => {
+describe("/v1/auth/signup", () => {
   let userName;
   let email;
   let password;
@@ -14,7 +14,7 @@ describe("auth/singup", () => {
 
   const exec = () => {
     return request(app)
-      .post("/auth/signup")
+      .post("/v1/auth/signup")
       .send({ userName, email, password });
   };
 
