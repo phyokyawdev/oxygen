@@ -1,7 +1,6 @@
 require("module-alias/register");
 
-const environment = require("./startup/environment");
-const database = require("./startup/database");
+const { connectDb, checkEnv } = require("./startup");
 const logger = require("@shared/logger")("index");
 const app = require("@app");
 
@@ -17,7 +16,7 @@ process.on("unhandledRejection", (err) => {
   process.exit(1);
 });
 
-environment.check(
+checkEnv(
   "PORT",
   "MONGO_URI",
   "JWT_PRIVATE_KEY",
@@ -28,7 +27,7 @@ environment.check(
 const start = async () => {
   logger.info("Starting server");
 
-  await database.connect(process.env.MONGO_URI);
+  await connectDb(process.env.MONGO_URI);
 
   app.listen(process.env.PORT, () => {
     logger.info(`Listening on port ${process.env.PORT}`);

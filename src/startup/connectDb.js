@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const logger = require("@shared/logger")("db");
+const logger = require("@shared/logger")("database");
 
-async function connect(uri) {
+async function connectDb(uri) {
   await mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -10,6 +10,4 @@ async function connect(uri) {
   logger.info("Connected to Database");
 }
 
-module.exports = {
-  connect,
-};
+module.exports = connectDb;
