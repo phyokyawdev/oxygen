@@ -44,11 +44,11 @@ jobs:
           heroku_app_name: "oxygen-mm-rest-api"
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
         env:
-          NODE_ENV: production
-          PORT: 3000
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-          JWT_PRIVATE_KEY: ${{ secrets.JWT_PRIVATE_KEY }}
-          JWT_PUBLIC_KEY: ${{ secrets.JWT_PUBLIC_KEY }}
-          COOKIE_KEYS: ${{ secrets.COOKIE_KEYS }}
-          LOGGLY_TOKEN: ${{ secrets.LOGGLY_TOKEN }}
-          LOGGLY_SUBDOMAIN: ${{ secrets.LOGGLY_SUBDOMAIN }}
+          HD_NODE_ENV: production
+          HD_PORT: 3000
+          HD_MONGO_URI: ${{ secrets.MONGO_URI }}
+          HD_JWT_PRIVATE_KEY: ${{ secrets.JWT_PRIVATE_KEY }}
+          HD_JWT_PUBLIC_KEY: ${{ secrets.JWT_PUBLIC_KEY }}
+          HD_COOKIE_KEYS: ${{ secrets.COOKIE_KEYS }}
+          HD_LOGGLY_TOKEN: ${{ secrets.LOGGLY_TOKEN }}
+          HD_LOGGLY_SUBDOMAIN: ${{ secrets.LOGGLY_SUBDOMAIN }}
