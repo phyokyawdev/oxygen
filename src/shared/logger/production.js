@@ -1,40 +1,33 @@
 const path = require("path");
-const { createLogger, transports } = require("winston");
-const { format } = require("logform");
-const { combine, colorize, errors, timestamp, printf, ms, json } = format;
+const winston = require("winston");
+require("winston-daily-rotate-file");
+const { Loggly } = require("winston-loggly-bulk");
+const { combine, errors, timestamp, ms, json } = winston.format;
 
+const logDir = path.join(__dirname, "../../../logs/");
 const level = process.env.LOG_LEVEL || "info";
-const allLog = path.join(__dirname, "../../../logs/all.log");
+const logglyToken = process.env.LOGGLY_TOKEN;
+const logglySubdomain = process.env.LOGGLY_SUBDOMAIN;
 
-const consolePrint = ({ timestamp, level, message, stack, ms }) => {
-  const ts = timestamp.slice(0, 19).replace("T", " ");
-  return `${ts} ${level} ${message}  ${ms} ${stack ? "\n" + stack : ""}`;
-};
-
-const combineLabelAndLevel = format((info, opts) => {
-  info.level = `${info.label}:${info.level}`;
-  return info;
+const loggly = new Loggly({
+  token: logglyToken,
+  subdomain: logglySubdomain,
+  tags: ["Winston-NodeJS"],
+  json: true,
 });
 
-const console = new transports.Console({
-  format: combine(
-    combineLabelAndLevel(),
-    timestamp(),
-    colorize(),
-    errors({ stack: true }),
-    ms(),
-    printf(consolePrint)
-  ),
+const dailyFile = new winston.transports.DailyRotateFile({
+  filename: "oxygen-%DATE%.log",
+  zippedArchive: true,
+  dirname: logDir,
+  maxSize: "20m",
+  maxFiles: "14d",
 });
 
-const file = new transports.File({
-  filename: allLog,
-  format: combine(timestamp(), errors({ stack: true }), ms(), json()),
-});
-
-const logger = createLogger({
+const logger = winston.createLogger({
   level,
-  transports: [console, file],
+  format: combine(timestamp(), errors({ stack: true }), ms(), json()),
+  transports: [loggly, dailyFile],
 });
 
 module.exports = function generateLogger(name) {

@@ -21,16 +21,21 @@ checkEnv(
   "MONGO_URI",
   "JWT_PRIVATE_KEY",
   "JWT_PUBLIC_KEY",
-  "COOKIE_KEYS"
+  "COOKIE_KEYS",
+  "LOGGLY_TOKEN",
+  "LOGGLY_SUBDOMAIN"
 );
+
+const mongoUri = process.env.MONGO_URI;
+const port = process.env.PORT;
 
 const start = async () => {
   logger.info("Starting server");
 
-  await connectDb(process.env.MONGO_URI);
+  await connectDb(mongoUri);
 
-  app.listen(process.env.PORT, () => {
-    logger.info(`Listening on port ${process.env.PORT}`);
+  app.listen(port, () => {
+    logger.info(`Listening on port ${port}`);
   });
 };
 
