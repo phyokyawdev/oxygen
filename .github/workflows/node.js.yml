@@ -1,7 +1,7 @@
 # This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Node.js CI
+name: Node.js CI/CD
 
 on:
   push:
@@ -28,8 +28,27 @@ jobs:
       - run: npm ci
       - run: npm run test:ci
         env:
-          COOKIE_KEYS: ${{ secrets.COOKIE_KEYS }}
           JWT_PRIVATE_KEY: ${{ secrets.JWT_PRIVATE_KEY }}
           JWT_PUBLIC_KEY: ${{ secrets.JWT_PUBLIC_KEY }}
+          COOKIE_KEYS: ${{ secrets.COOKIE_KEYS }}
           MONGOMS_DOWNLOAD_URL: https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1804-4.2.8.tgz
           MONGOMS_VERSION: 4.2.8
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: "oxygen-mm-rest-api"
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+        env:
+          NODE_ENV: production
+          PORT: 3000
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          JWT_PRIVATE_KEY: ${{ secrets.JWT_PRIVATE_KEY }}
+          JWT_PUBLIC_KEY: ${{ secrets.JWT_PUBLIC_KEY }}
+          COOKIE_KEYS: ${{ secrets.COOKIE_KEYS }}
+          LOGGLY_TOKEN: ${{ secrets.LOGGLY_TOKEN }}
+          LOGGLY_SUBDOMAIN: ${{ secrets.LOGGLY_SUBDOMAIN }}
