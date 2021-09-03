@@ -1,13 +1,11 @@
-const productionLogger = require("./production");
-const developmentLogger = require("./development");
 const isProduction = process.env.NODE_ENV === "production";
 
 let logger;
 
 if (isProduction) {
-  logger = productionLogger;
+  logger = require("./production");
 } else {
-  logger = developmentLogger;
+  logger = require("./development");
 }
 
 module.exports = logger;
