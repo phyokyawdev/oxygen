@@ -5,9 +5,15 @@ name: Node.js CI/CD
 
 on:
   push:
-    branches: [master]
+    branches:
+      - master
+    paths-ignore:
+      - "**/README.md"
   pull_request:
-    branches: [master]
+    branches:
+      - master
+    paths-ignore:
+      - "**/README.md"
 
 jobs:
   build:
@@ -33,6 +39,7 @@ jobs:
           COOKIE_KEYS: ${{ secrets.COOKIE_KEYS }}
           MONGOMS_DOWNLOAD_URL: https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1804-4.2.8.tgz
           MONGOMS_VERSION: 4.2.8
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -43,6 +50,9 @@ jobs:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: "oxygen-mm-rest-api"
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          healthcheck: "https://oxygen-mm-rest-api.herokuapp.com/health"
+          delay: 5
+          rollbackonhealthcheckfailed: true
         env:
           HD_NODE_ENV: production
           HD_PORT: 3000
